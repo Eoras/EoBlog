@@ -27,7 +27,7 @@ if ($edit === true) {
                     <div class="card-header bg-<?= $visible ? 'success' : 'warning' ?> js-visibility-header text-white p-2">
                         <div class="input-group input-group-sm">
                             <input type="text" name="title" class="form-control form-control-sm"
-                                   value="<?= $article['title'] ?? '' ?>"
+                                   value="<?= htmlspecialchars($article['title']) ?? '' ?>"
                                    placeholder="Title" id="titleForm">
                             <div class="input-group-append">
                                 <span class="input-group-text">
@@ -44,7 +44,7 @@ if ($edit === true) {
                     </div>
                     <div class="card-body p-2">
                             <textarea class="form-control" id="formContent" name="content" rows="10"
-                                      placeholder="Article content"><?= $article['content'] ?? '' ?></textarea>
+                                      placeholder="Article content"><?= nl2br(htmlspecialchars($article['content'])) ?? '' ?></textarea>
                         <input type="text" class="mt-2 form-control" id="formPseudo" name="author"
                                value="<?= $article['author'] ?? '' ?>" placeholder="Your name">
                     </div>
@@ -53,7 +53,7 @@ if ($edit === true) {
                             <p class="m-0">
                                 <small>
                                 <?= $edit ?
-                                    "<strong>Created by: </strong>" . $article['date_created_format'] .
+                                    "<strong>Created by: </strong>". htmlentities($article['author']) . " on " . $article['date_created_format'] .
                                    ($article['date_updated_format'] ? " -- <strong>Updated: </strong>" . $article['date_updated_format'] : "") :
                                     "" ?>
                                 </small>

@@ -104,7 +104,7 @@ if ($totalArticle > 0 && $pBlog_NbArticlesPerPage != 0) {
                                 <footer class="blockquote-footer">
                                     <small>
                                         <span class="far fa-calendar-alt"></span>
-                                        <strong>Created by:</strong> <?= $article['author']; ?>
+                                        <strong>Created by:</strong> <?= htmlspecialchars($article['author']); ?>
                                         on <?= $article['date_created_format']; ?>
                                     </small>
                                 </footer>

@@ -10,7 +10,7 @@ if (isset($_GET['article']) AND !empty($_GET['article'])) {
 }
 
 // We retrieve the selected article
-$queryArticle = $dbConnect->prepare("SELECT *, DATE_FORMAT(date_created,'%d/%m/%Y à %H:%i:%s') as date_created_format FROM article WHERE id = ?");
+$queryArticle = $dbConnect->prepare("SELECT *, DATE_FORMAT(date_created,'%Y/%m/%d at %H:%i:%s') as date_created_format FROM article WHERE id = ?");
 $queryArticle->execute([$currentArticleId]);
 $article = $queryArticle->fetch();
 if (!$article) header('location: /');
@@ -39,7 +39,7 @@ $queryArticle->closeCursor();
                         <footer class="blockquote-footer">
                             <small>
                                 <span class="far fa-calendar-alt"></span>
-                                Created by <?= $article['author']; ?> on <?= $article['date_created_format']; ?>
+                                <strong>Created by:</strong> <?= htmlspecialchars($article['author']); ?> on <?= $article['date_created_format']; ?>
                             </small>
                         </footer>
                     </blockquote>

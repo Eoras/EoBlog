@@ -233,7 +233,7 @@ include 'params.php';
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="pAdmin_password">Choise a password:</label>
+                                        <label for="pAdmin_password">Choose a password:</label>
                                         <input type="password" name="pAdmin_password"
                                                id="pAdmin_password" class="form-control"
                                                value="<?= $parameters['pAdmin_password']['value'] ?>">
