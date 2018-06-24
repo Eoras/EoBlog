@@ -1,0 +1,68 @@
+/*GLOBAL*/
+.hidden {
+    display: none;
+}
+
+.legend {
+    font-size: 0.6rem;
+    font-style: italic;
+}
+
+:focus {
+    outline: none;
+}
+
+.form-control:focus {
+    border-color: #bababa;
+    box-shadow: 0 0 0 0.1rem rgba(122, 122, 122, 0.25);
+}
+
+.dropdown-item:active {
+    color: inherit;
+    background-color: inherit;
+}
+/*GENERAL*/
+.articleLinkCard:hover {
+   text-decoration: inherit;
+    color: inherit;
+}
+.articleLinkCard {
+    text-decoration: inherit;
+    color: inherit;
+}
+
+.bg-comments-valide {
+    background-color: #ecffea !important;
+}
+.bg-comments-notvalide {
+    background-color: #fff2f7 !important;
+}
+.bg-comments-unvalide {
+     background-color: #fffee8 !important;
+ }
+
+.new {
+    position: absolute;
+    left:  3px;
+    top: 3px;
+    height: 7px;
+}
+
+
+/*PAGINATION*/
+.page-item.active .page-link {
+    background-color: #bdbaba;
+    border-color: #959595;
+}
+.page-link {
+    color: black;
+}
+
+/*INSTALL CSS*/
+ul.list {
+    list-style: none;
+}
+
+.step {
+    font-size: 0.7em;
+}
