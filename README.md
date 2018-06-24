@@ -1,4 +1,4 @@
-# Eo-Blog v1.0.0 (Vanilla PHP)
+# EoBlog v1.0.0 (Vanilla PHP)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-brightgreen.svg?style=flat-square&logo=paypal)](https://paypal.me/PaulDSB/)
 
 About
