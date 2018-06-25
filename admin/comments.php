@@ -100,11 +100,11 @@ if (isset($_GET['article']) && !empty($_GET['article'])) :
         <div class="col-12">
             <div class="card <?= $visible ? "border-success" : "border-warning" ?>">
                 <div class="card-header p-2 <?= $visible ? "bg-success" : "bg-warning" ?> ">
-                    <h4 class="m-0"><?php echo htmlspecialchars($article['title']); ?></h4>
+                    <h4 class="m-0"><?php echo htmlentities($article['title']); ?></h4>
                 </div>
                 <div class="card-body p-2">
                     <blockquote class="blockquote mb-3">
-                        <p class="mb-0"><?= nl2br(htmlspecialchars($article['content'])); ?></p>
+                        <p class="mb-0"><?= nl2br(htmlentities($article['content'])); ?></p>
                         <footer class="blockquote-footer">
                             <small>
                                 <span class="far fa-calendar-alt"></span>
@@ -181,10 +181,10 @@ if (isset($_GET['article']) && !empty($_GET['article'])) :
                                         </button>
                                     </div>
                                     <p style="font-size: 0.6em"
-                                       class="m-0"><?= nl2br(htmlspecialchars($comment['comment'])) ?></p>
+                                       class="m-0"><?= nl2br(htmlentities($comment['comment'])) ?></p>
                                     <footer class="blockquote-footer" style="font-size: 0.5em">
                                         <span class="far fa-calendar-alt"></span>
-                                        <strong>Posted by:</strong> <?= htmlspecialchars($comment['author']) ?>
+                                        <strong>Posted by:</strong> <?= htmlentities($comment['author']) ?>
                                         on <?= $comment['date_created_format'] ?>
                                     </footer>
                                     <div class="clearfix"></div>

@@ -14,20 +14,42 @@ if ($edit === true) {
 } else {
     $visible = true;
 }
+
+if (isset($_SESSION['POST'])) {
+    $visible = $_SESSION['POST']['visibility'] ?? false;
+    $article['title'] = trim($_SESSION['POST']['title']);
+    $article['content'] = trim($_SESSION['POST']['content']);
+    $article['author'] = trim($_SESSION['POST']['author']);
+}
+
 ?>
     <div class="row mb-1 mt-3">
         <div class="col">
-            <a class="btn btn-sm btn-dark" href="index.php"><i class="fa fa-chevron-left" aria-hidden="true"></i> Go Back</a>
+            <a class="btn btn-sm btn-dark" href="index.php"><i class="fa fa-chevron-left" aria-hidden="true"></i> Go
+                Back</a>
         </div>
     </div>
     <div class="row">
         <div class="col-12">
             <form method="POST" action="action/article.php">
+                <?php if (isset($_SESSION['errors'])) : ?>
+                    <div class="alert alert-danger px-3 py-0 mb-1">
+                        <small>
+                            <strong>Error<?= count($_SESSION['errors']) > 1 ? "s" : "" ?>: </strong>
+                            <ul class="mb-1">
+                                <?php foreach ($_SESSION['errors'] as $key => $error) {
+                                    echo "<li>$error</li>";
+                                }
+                                ?>
+                            </ul>
+                        </small>
+                    </div>
+                <?php endif; ?>
                 <div class="card mb-2 card border-<?= $visible ? 'success' : 'warning' ?> js-visibility-card">
                     <div class="card-header bg-<?= $visible ? 'success' : 'warning' ?> js-visibility-header text-white p-2">
                         <div class="input-group input-group-sm">
                             <input type="text" name="title" class="form-control form-control-sm"
-                                   value="<?= htmlspecialchars($article['title']) ?? '' ?>"
+                                   value="<?= isset($article['title']) ? htmlentities($article['title']) : "" ?>"
                                    placeholder="Title" id="titleForm">
                             <div class="input-group-append">
                                 <span class="input-group-text">
@@ -44,26 +66,28 @@ if ($edit === true) {
                     </div>
                     <div class="card-body p-2">
                             <textarea class="form-control" id="formContent" name="content" rows="10"
-                                      placeholder="Article content"><?= nl2br(htmlspecialchars($article['content'])) ?? '' ?></textarea>
+                                      placeholder="Article content"><?= isset($article['content']) ? htmlentities($article['content']) : "" ?></textarea>
                         <input type="text" class="mt-2 form-control" id="formPseudo" name="author"
-                               value="<?= $article['author'] ?? '' ?>" placeholder="Your name">
+                               value="<?= isset($article['author']) ? htmlentities($article['author']) : "" ?>" placeholder="Your name">
                     </div>
                     <div class="card-footer">
                         <div class="d-flex justify-content-between align-items-center">
                             <p class="m-0">
                                 <small>
-                                <?= $edit ?
-                                    "<strong>Created by: </strong>". htmlentities($article['author']) . " on " . $article['date_created_format'] .
-                                   ($article['date_updated_format'] ? " -- <strong>Updated: </strong>" . $article['date_updated_format'] : "") :
-                                    "" ?>
+                                    <?= $edit ?
+                                        "<strong>Created by: </strong>" . htmlentities($article['author']) . " on " . $article['date_created_format'] .
+                                        ($article['date_updated_format'] ? " -- <strong>Updated: </strong>" . $article['date_updated_format'] : "") :
+                                        "" ?>
                                 </small>
                             </p>
-                            <?php if($edit) :?>
+                            <?php if ($edit) : ?>
                                 <input type="hidden" name="article_id" value="<?= $article['id'] ?>">
                             <?php endif; ?>
                             <div>
-                                <a href="/admin" class="p-1 btn btn-danger btn-sm"><i class="fa fa-ban" aria-hidden="true"></i> Cancel</a>
-                                <button type="submit" class="btn btn-success btn-sm"><?= $edit ? "Save " : "Create " ?><i class="fa fa-check" aria-hidden="true"></i></button>
+                                <a href="/admin" class="p-1 btn btn-danger btn-sm"><i class="fa fa-ban"
+                                                                                      aria-hidden="true"></i> Cancel</a>
+                                <button type="submit" class="btn btn-success btn-sm"><?= $edit ? "Save " : "Create " ?>
+                                    <i class="fa fa-check" aria-hidden="true"></i></button>
 
                             </div>
                         </div>
@@ -96,4 +120,6 @@ if ($edit === true) {
     </script>
 <?php
 include '../footer.php';
+unset($_SESSION['errors']);
+unset($_SESSION['POST']);
 ?>

@@ -61,7 +61,7 @@ include 'params.php';
             <img src="../assets/img/eoras.png" alt="Eoras" title="Eöras">
             <h3>
                 <i class="far fa-smile" aria-hidden="true"></i>
-                Tank you to use my work ;)
+                Thank you to use my work ;)
                 <i class="far fa-smile" aria-hidden="true"></i>
             </h3>
         </div>

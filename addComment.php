@@ -12,8 +12,8 @@ try {
 }
 
 if ($_POST && !empty($_POST)) {
-    $author = htmlentities($_POST['author']);
-    $comment = htmlentities($_POST['comment']);
+    $author = $_POST['author'];
+    $comment = $_POST['comment'];
     $articleId = is_numeric($_POST['articleId']) ? $_POST['articleId'] : 0;
 
     if($articleId <= 0 ) {
