@@ -40,8 +40,8 @@ $dbTable = [
 ];
 if(isset($_POST) && !empty($_POST)) {
     $pDB_Name = (!empty($_POST['pDB_Name']) ? htmlentities($_POST['pDB_Name']) : 'EoBlog_DB');
-    $pDB_UserName = htmlentities($_POST['pDB_UserName']);
-    $pDB_Password = htmlentities($_POST['pDB_Password']);
+    $pDB_UserName = $_POST['pDB_UserName'];
+    $pDB_Password = $_POST['pDB_Password'];
 
     // Ensure reporting is setup correctly
     mysqli_report(MYSQLI_REPORT_STRICT);
@@ -50,7 +50,9 @@ if(isset($_POST) && !empty($_POST)) {
         $mysqli = new mysqli('localhost',$pDB_UserName,$pDB_Password);
         try {
             $mysqli->query("CREATE DATABASE $pDB_Name;");
-            $db = new PDO("mysql:host=localhost;dbname=$pDB_Name;charset=utf8", "$pDB_UserName", "$pDB_Password");
+            $db = new PDO("mysql:host=localhost;dbname=$pDB_Name;charset=utf8",
+                "$pDB_UserName",
+                "$pDB_Password", [PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION]);
 
             foreach ($dbTable as $query) {
                 if($db->exec($query) === false) {
@@ -58,7 +60,6 @@ if(isset($_POST) && !empty($_POST)) {
                     echo json_encode($data); exit();
                 }
             }
-
         } catch (Exception $e) {
             $data['error'] = $e->getMessage();
             echo json_encode($data); exit();
