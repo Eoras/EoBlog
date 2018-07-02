@@ -38,7 +38,7 @@ $dbTable = [
       (NULL, '1', 'Alexandre', 'Have to go, cya', '2018-06-20 14:02:15', '0'),
       (NULL, '2', 'Melissa', 'Nice have fun !', '2018-06-20 15:07:08', '0');"
 ];
-if(isset($_POST) && !empty($_POST)) {
+if (isset($_POST) && !empty($_POST)) {
     $pDB_Name = (!empty($_POST['pDB_Name']) ? htmlentities($_POST['pDB_Name']) : 'EoBlog_DB');
     $pDB_UserName = $_POST['pDB_UserName'];
     $pDB_Password = $_POST['pDB_Password'];
@@ -47,26 +47,35 @@ if(isset($_POST) && !empty($_POST)) {
     mysqli_report(MYSQLI_REPORT_STRICT);
 
     try {
-        $mysqli = new mysqli('localhost',$pDB_UserName,$pDB_Password);
+        try {
+            $mysqli = new mysqli('localhost', $pDB_UserName, $pDB_Password);
+        } catch (Exception $e) {
+            $data['error'] = 'Access denied to your Database. Check your username and your password.';
+            echo json_encode($data);
+            exit();
+        }
         try {
             $mysqli->query("CREATE DATABASE $pDB_Name;");
             $db = new PDO("mysql:host=localhost;dbname=$pDB_Name;charset=utf8",
                 "$pDB_UserName",
-                "$pDB_Password", [PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION]);
+                "$pDB_Password", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 
             foreach ($dbTable as $query) {
-                if($db->exec($query) === false) {
+                if ($db->exec($query) === false) {
                     $data['error'] = 'Error creating tables, maybe they already exist.';
-                    echo json_encode($data); exit();
+                    echo json_encode($data);
+                    exit();
                 }
             }
         } catch (Exception $e) {
             $data['error'] = $e->getMessage();
-            echo json_encode($data); exit();
+            echo json_encode($data);
+            exit();
         }
     } catch (mysqli_sql_exception $e) {
         $data['error'] = $e->getMessage();
-        echo json_encode($data); exit();
+        echo json_encode($data);
+        exit();
     }
 
     try {
@@ -75,31 +84,38 @@ if(isset($_POST) && !empty($_POST)) {
         foreach ($parameters as $keyName => $param) {
             if ($first) {
                 try {
-                    fwrite($parametersFile, "<?php\n"); $first = false;
+                    fwrite($parametersFile, "<?php\n");
+                    $first = false;
                 } catch (Exception $e) {
                     $data['error'] = 'Unable to write the file parameter.php in the folder';
-                    echo json_encode($data); exit();
+                    echo json_encode($data);
+                    exit();
                 }
             }
             try {
                 fwrite($parametersFile, "$" . $keyName . " = " . (key_exists($keyName, $_POST) ? ($param['type'] === 'INT' ? $_POST[$keyName] : "\"" . $_POST[$keyName] . "\"") : ($param['type'] === 'INT' ? $param['value'] : "\"" . $param['value'] . "\"")) . ";\n");
             } catch (Exception $e) {
                 $data['error'] = 'Unable to write the file parameter.php in the folder';
-                echo json_encode($data); exit();
+                echo json_encode($data);
+                exit();
             }
         }
         try {
             copy("parameters.php.dist", '../config/parameters.php');
+            unset($parametersFile);
             unlink("parameters.php.dist");
         } catch (Exception $e) {
             $data['error'] = 'Could not move the file';
-            echo json_encode($data); exit();
+            echo json_encode($data);
+            exit();
         }
         $data['success'] = true;
-        echo json_encode($data); exit();
+        echo json_encode($data);
+        exit();
     } catch (Exception $e) {
         $data['error'] = 'Unable to open the file parameter.php in the folder';
-        echo json_encode($data); exit();
+        echo json_encode($data);
+        exit();
     }
 }
 echo json_encode($data);
